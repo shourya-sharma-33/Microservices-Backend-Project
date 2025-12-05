@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import connectDb from "./config/db.js";
 import { createClient } from "redis";
 import userRoutes from "./routes/user.js"
+import { connectRabbitMQ } from "./config/rabbitmq.js";
 const application = express();
 dotenv.config();
 connectDb();
@@ -11,6 +12,7 @@ connectDb();
 export const redisClient = createClient({
     url : process.env.REDIS_URL as string,
 })
+connectRabbitMQ();
 
 redisClient.connect().then(() => console.log("connect to redis")).catch(console.error)
 const PORT = 5000;
