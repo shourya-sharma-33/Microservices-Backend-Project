@@ -13,10 +13,10 @@ export const redisClient = createClient({
     url : process.env.REDIS_URL as string,
 })
 connectRabbitMQ();
-
+application.use(express.json())
 redisClient.connect().then(() => console.log("connect to redis")).catch(console.error)
 const PORT = 5000;
-application.use("api/v1", userRoutes)
+application.use("/api/v1", userRoutes)
 application.listen(PORT, () => {
     console.log("Server Running on 5000");
     
