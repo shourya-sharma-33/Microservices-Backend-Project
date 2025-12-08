@@ -18,7 +18,7 @@ export const is_auth = async (req, res, next) => {
         next();
     }
     catch (error) {
-        return unauthorizedRes(res, { message: "Please login" });
+        unauthorizedRes(res, { message: "Please login" });
     }
 };
 //# sourceMappingURL=auth.js.map

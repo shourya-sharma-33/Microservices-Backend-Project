@@ -45,6 +45,6 @@ export const is_auth = async (
         req.user = decodedValue.user;
         next();
     } catch (error) {
-        return unauthorizedRes(res, { message: "Please login" });
+         unauthorizedRes(res, { message: "Please login" });
     }
 };
