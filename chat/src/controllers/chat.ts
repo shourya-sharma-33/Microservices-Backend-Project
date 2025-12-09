@@ -1,8 +1,6 @@
 import { badRequestRes, createdRes } from "../config/res_handler.js";
 import try_catch from "../config/try_catch.js";
-import {
-    AuthenticatedRequest
-} from "../middlewares/auth.js"
+import type { AuthenticatedRequest } from "../middlewares/auth";
 import { Chat } from "../models/chat.js";
 
 export const createNewChat = try_catch(
@@ -41,10 +39,34 @@ export const createNewChat = try_catch(
 
         createdRes(res, {
             message : "New Chat Created",
-            chatId : newChat._id,
+            chatId : newChat._id
         })
-
-
-
     }
 )
+
+
+export const getAllChat = try_catch(async (
+    req : AuthenticatedRequest, res
+) => {
+    const userId = req.user?._id;
+
+    if(!userId) {
+        badRequestRes(res, {
+            message : "User Id Missing"
+        });
+
+        return;
+    }
+
+    const chats = await Chat.find({
+        users : userId
+    }).sort({
+        updatedAt : -1
+    });
+
+    const chatWithUserData = await Promise.all(
+        chats.map(async (chat)=> {
+            const otherUserId = chat.users.find(id => id !== userId)
+        })
+    )
+})
